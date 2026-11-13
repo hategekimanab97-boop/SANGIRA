@@ -1,0 +1,6 @@
+{
+  "name": "Sangira — Hotel & Restaurant Management Platform",
+  "description": "Complete production-ready multi-tenant SaaS for hotels, restaurants, bars, and lounges with role-based operational dashboards, QR ordering, stock workflows, and payment tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

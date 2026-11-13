@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --breakpoint-xs: 24rem;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --color-brand-primary: #0E382B;
+  --color-brand-hover: #09281F;
+  --color-brand-light: #EBF4F0;
+  --color-gold: #D4AF37;
+  --color-gold-hover: #C59F2A;
+  --color-gold-canvas: #FAF6EB;
+  --color-gold-card: #FFFDF9;
+  --color-gold-dark: #0A0E0C;
+}
+
+:root {
+  font-family: var(--font-sans);
+  color-scheme: light dark;
+}
+
+html,
+body {
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100dvh;
+  background-color: #FAF6EB;
+  color: #1C1917;
+  -webkit-font-smoothing: antialiased;
+}
+
+.dark body {
+  background-color: #0A0E0C;
+  color: #F5F5F4;
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom scrollbars with luxury gold thumb tint */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.4);
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.3);
+}

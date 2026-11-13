@@ -1,0 +1,68 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Businesses
+    match /businesses/{businessId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    // Onboarding Applications
+    match /applications/{applicationId} {
+      allow read, create: if true;
+      allow update, delete: if isSignedIn();
+    }
+
+    // Orders
+    match /orders/{orderId} {
+      allow read, create, update: if true;
+      allow delete: if isSignedIn();
+    }
+
+    // Inventory
+    match /inventory/{itemId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    // Stock Requisitions
+    match /stock_requests/{requestId} {
+      allow read, create, update: if true;
+      allow delete: if isSignedIn();
+    }
+
+    // Hotel Rooms
+    match /rooms/{roomId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    // Hotel Reservations
+    match /reservations/{reservationId} {
+      allow read, create, update: if true;
+      allow delete: if isSignedIn();
+    }
+
+    // Audit logs (append-only)
+    match /audit_logs/{logId} {
+      allow read, create: if true;
+      allow update, delete: if false;
+    }
+
+    // Notifications
+    match /notifications/{notificationId} {
+      allow read, create, update: if true;
+      allow delete: if isSignedIn();
+    }
+  }
+}

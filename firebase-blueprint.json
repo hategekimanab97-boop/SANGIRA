@@ -1,0 +1,197 @@
+{
+  "entities": {
+    "Business": {
+      "title": "Business",
+      "description": "Hospitality business tenant profile and configuration",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "type": { "type": "string", "enum": ["hotel", "restaurant", "bar", "lounge"] },
+        "status": { "type": "string", "enum": ["active", "suspended", "pending"] },
+        "email": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "location": { "type": "string", "maxLength": 150 },
+        "currency": { "type": "string", "maxLength": 5 },
+        "taxRate": { "type": "number" },
+        "hasHotelModule": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "name", "type", "status"]
+    },
+    "BusinessApplication": {
+      "title": "BusinessApplication",
+      "description": "Prospective tenant onboarding application",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "businessName": { "type": "string", "maxLength": 100 },
+        "businessType": { "type": "string" },
+        "ownerName": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "location": { "type": "string", "maxLength": 150 },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "submittedAt": { "type": "string" },
+        "reviewerNotes": { "type": "string", "maxLength": 500 }
+      },
+      "required": ["id", "businessName", "ownerName", "email", "status"]
+    },
+    "OrderItem": {
+      "title": "OrderItem",
+      "description": "Customer dining orders and tickets",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orderNumber": { "type": "string", "maxLength": 30 },
+        "businessId": { "type": "string" },
+        "tableNumber": { "type": "string", "maxLength": 20 },
+        "type": { "type": "string", "enum": ["dine_in", "takeaway", "room_service"] },
+        "totalAmount": { "type": "number" },
+        "status": { "type": "string", "enum": ["received", "preparing", "ready", "delivered", "cancelled"] },
+        "paymentStatus": { "type": "string", "enum": ["pending", "verified", "refunded"] },
+        "paymentMethod": { "type": "string" },
+        "customerName": { "type": "string", "maxLength": 100 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "businessId", "tableNumber", "status"]
+    },
+    "StockItem": {
+      "title": "StockItem",
+      "description": "Central and departmental inventory record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "businessId": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "sku": { "type": "string", "maxLength": 50 },
+        "category": { "type": "string" },
+        "unit": { "type": "string", "maxLength": 20 },
+        "centralStock": { "type": "number" },
+        "kitchenStock": { "type": "number" },
+        "barStock": { "type": "number" },
+        "minThreshold": { "type": "number" },
+        "costPerUnit": { "type": "number" }
+      },
+      "required": ["id", "businessId", "name", "unit"]
+    },
+    "StockRequest": {
+      "title": "StockRequest",
+      "description": "Internal requisition for warehouse stock transfer",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "businessId": { "type": "string" },
+        "department": { "type": "string", "enum": ["kitchen", "bar"] },
+        "requestedBy": { "type": "string", "maxLength": 100 },
+        "status": { "type": "string", "enum": ["pending", "approved", "issued", "rejected"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "businessId", "department", "status"]
+    },
+    "HotelRoom": {
+      "title": "HotelRoom",
+      "description": "Accommodation room inventory and occupancy status",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "businessId": { "type": "string" },
+        "roomNumber": { "type": "string", "maxLength": 20 },
+        "type": { "type": "string" },
+        "floor": { "type": "number" },
+        "ratePerNight": { "type": "number" },
+        "status": { "type": "string", "enum": ["available", "occupied", "maintenance"] },
+        "housekeeping": { "type": "string", "enum": ["clean", "dirty", "in_progress", "inspected"] }
+      },
+      "required": ["id", "businessId", "roomNumber", "status"]
+    },
+    "HotelReservation": {
+      "title": "HotelReservation",
+      "description": "Guest lodging booking and folio",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "businessId": { "type": "string" },
+        "guestName": { "type": "string", "maxLength": 100 },
+        "roomId": { "type": "string" },
+        "roomNumber": { "type": "string", "maxLength": 20 },
+        "checkInDate": { "type": "string" },
+        "checkOutDate": { "type": "string" },
+        "status": { "type": "string", "enum": ["reserved", "checked_in", "checked_out", "cancelled"] },
+        "totalAmount": { "type": "number" },
+        "paidAmount": { "type": "number" }
+      },
+      "required": ["id", "businessId", "guestName", "roomId", "status"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Immutable security and operations audit record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "businessId": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string", "maxLength": 100 },
+        "action": { "type": "string", "maxLength": 100 },
+        "department": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "details": { "type": "string", "maxLength": 500 }
+      },
+      "required": ["id", "action", "timestamp"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "Departmental operational alert",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "businessId": { "type": "string" },
+        "title": { "type": "string", "maxLength": 150 },
+        "message": { "type": "string", "maxLength": 500 },
+        "type": { "type": "string", "enum": ["order", "stock", "urgent", "system"] },
+        "targetDepartment": { "type": "string" },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "businessId", "title", "message"]
+    }
+  },
+  "firestore": {
+    "/businesses/{businessId}": {
+      "schema": "Business",
+      "description": "Registered businesses"
+    },
+    "/applications/{applicationId}": {
+      "schema": "BusinessApplication",
+      "description": "Tenant onboarding requests"
+    },
+    "/orders/{orderId}": {
+      "schema": "OrderItem",
+      "description": "Customer dining orders"
+    },
+    "/inventory/{itemId}": {
+      "schema": "StockItem",
+      "description": "Warehouse and department inventory"
+    },
+    "/stock_requests/{requestId}": {
+      "schema": "StockRequest",
+      "description": "Internal stock requisitions"
+    },
+    "/rooms/{roomId}": {
+      "schema": "HotelRoom",
+      "description": "Hotel accommodation rooms"
+    },
+    "/reservations/{reservationId}": {
+      "schema": "HotelReservation",
+      "description": "Guest hotel stays"
+    },
+    "/audit_logs/{logId}": {
+      "schema": "AuditLog",
+      "description": "Audit trails"
+    },
+    "/notifications/{notificationId}": {
+      "schema": "Notification",
+      "description": "Operational alerts"
+    }
+  }
+}
